@@ -77,6 +77,7 @@ public class Primers {
 				for (int y = x + 1; y < s.length() - 1; y++) {
 					if (s.charAt(x) == s.charAt(y)) {
 						int k = s.charAt(x) - '0' + 1;
+						if (k > 10 - size) continue;
 						int primeFamilyCount = 1;
 						int currPrimeFamilyInteger = curr;
 
@@ -101,24 +102,6 @@ public class Primers {
 		}
 		return -1;
 	}
-	/*
-		s = 12345
-			 x y	
-		each time, add 10**(s.length - x - 1) 109800709
-	*/
 
-	public static String replace(String s, int x, int y, int k) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < s.length(); i++) {
-			if (i == x || i == y) {
-				sb.append(k);
-			}
-			else {
-				sb.append(s.charAt(i));
-			}
-
-		}
-		return sb.toString();
-	}
 
 }
