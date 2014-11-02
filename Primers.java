@@ -14,10 +14,15 @@ public class Primers {
 		}
 
 		if (n < 2) return false;
+		if (n == 2) return true;
+		if (n % 2 == 0) return false;
+		if (n % 3 == 0) return false;
 
 		int max = (int)Math.sqrt((double)n);
-		for (int i = 2; i <= max; i++) {
-			if (n % i == 0)
+		for (int k = 2; 3 * k - 1 <= max; k++) {
+			if (n % (3 * k - 1) == 0)
+				return false;
+			if (n % (3 * k + 1) == 0)
 				return false;
 		}
 		sPrimes.add(n);
@@ -34,26 +39,36 @@ public class Primers {
 	}
 
 	public static void test() {
-		for (int i = 1000000000; i < 2000000000; i++) {
-			System.out.println(String.format("isPrime(%d) = %b", i, isPrime(i)));
+		// for (int i = 1000000000; i < 2000000000; i++) {
+		// 	System.out.println(String.format("isPrime(%d) = %b", i, isPrime(i)));
+		// }
+
+		int[] someVals = new int[]{12344233, 1229, 1339, 1449, 1559, 1669, 1779, 1889, 1999};
+		for (int i = 0; i < someVals.length; i++) {
+			System.out.println(String.format("isPrime(%d) = %b", someVals[i], isPrime(someVals[i])));
 		}
+
 
 	}
 
 	public static void main(String[] args) {
-		int familySize = 7;
-		int answer = firstPrimeFamily(familySize, 100003000);
+		int familySize = 8;
+		int minPrime = Integer.parseInt(args[0]);
+		int maxPrime = Integer.parseInt(args[1]);
+		System.out.println(String.format("Searching for primes between %d and %d", minPrime, maxPrime));
+		int answer = firstPrimeFamily(familySize, minPrime, maxPrime);
 		System.out.println(String.format("Family of size %d starts at %d", familySize, answer));
 	}
 
 
-	public static int firstPrimeFamily(int size, int maxN) {
+	public static int firstPrimeFamily(int size, int minN, int maxN) {
 		// for each prime of increasing size
 		//		for each pair of equivalent digits
 		//			for k = (that digit; k <= 9; k++)
 		//				count # primes
 
-		ArrayList<Integer> p = getPrimes(2, maxN);
+		ArrayList<Integer> p = getPrimes(minN, maxN);
+		System.out.println(String.format("Found %d primes needed.", p.size()));
 		for (int i = 0; i < p.size(); i++) {
 			int curr = p.get(i);
 
@@ -63,15 +78,20 @@ public class Primers {
 					if (s.charAt(x) == s.charAt(y)) {
 						int k = s.charAt(x) - '0' + 1;
 						int primeFamilyCount = 1;
+						int currPrimeFamilyInteger = curr;
+
+						int amountToAdd = 0;
+						amountToAdd += (int)Math.pow(10, s.length() - x - 1);
+						amountToAdd += (int)Math.pow(10, s.length() - y - 1);
+
 						for (; k <= 9; k++) {
-							// int amountToAdd = 
-							String nextPotentialFamilyMember = replace(s, x, y, k);
-							int nextInt = Integer.parseInt(nextPotentialFamilyMember);
-							if (isPrime(nextInt)) {
+							currPrimeFamilyInteger += amountToAdd;
+							if (isPrime(currPrimeFamilyInteger)) {
 								primeFamilyCount++;
 							}
 						}
-						System.out.println(String.format("For prime %d found family of size %d at indices %d,%d", curr, primeFamilyCount, x, y));
+						if (primeFamilyCount >= 7)
+							System.out.println(String.format("For prime %d found family of size %d at indices %d,%d", curr, primeFamilyCount, x, y));
 						if (primeFamilyCount == size) {
 							return curr;
 						}
@@ -84,7 +104,7 @@ public class Primers {
 	/*
 		s = 12345
 			 x y	
-		each time, add 10**(s.length - x - 1)
+		each time, add 10**(s.length - x - 1) 109800709
 	*/
 
 	public static String replace(String s, int x, int y, int k) {
