@@ -60,7 +60,6 @@ public class Primers {
 		System.out.println(String.format("Family of size %d starts at %d", familySize, answer));
 	}
 
-
 	public static int firstPrimeFamily(int size, int minN, int maxN) {
 		// for each prime of increasing size
 		//		for each pair of equivalent digits
@@ -75,26 +74,28 @@ public class Primers {
 			String s = String.format("%d", curr);
 			for (int x = 0; x < s.length() - 1; x++) {
 				for (int y = x + 1; y < s.length() - 1; y++) {
-					if (s.charAt(x) == s.charAt(y)) {
-						int k = s.charAt(x) - '0' + 1;
-						if (k > 10 - size) continue;
-						int primeFamilyCount = 1;
-						int currPrimeFamilyInteger = curr;
+					for (int z = y + 1; z < s.length() - 1; z++) {
+						if (s.charAt(x) == s.charAt(y) && s.charAt(x) == s.charAt(z)) {
+							int k = s.charAt(x) - '0' + 1;
+							int primeFamilyCount = 1;
+							int currPrimeFamilyInteger = curr;
 
-						int amountToAdd = 0;
-						amountToAdd += (int)Math.pow(10, s.length() - x - 1);
-						amountToAdd += (int)Math.pow(10, s.length() - y - 1);
+							int amountToAdd = 0;
+							amountToAdd += (int)Math.pow(10, s.length() - x - 1);
+							amountToAdd += (int)Math.pow(10, s.length() - y - 1);
+							amountToAdd += (int)Math.pow(10, s.length() - z - 1);
 
-						for (; k <= 9; k++) {
-							currPrimeFamilyInteger += amountToAdd;
-							if (isPrime(currPrimeFamilyInteger)) {
-								primeFamilyCount++;
+							for (; k <= 9; k++) {
+								currPrimeFamilyInteger += amountToAdd;
+								if (isPrime(currPrimeFamilyInteger)) {
+									primeFamilyCount++;
+								}
 							}
-						}
-						if (primeFamilyCount >= 7)
-							System.out.println(String.format("For prime %d found family of size %d at indices %d,%d", curr, primeFamilyCount, x, y));
-						if (primeFamilyCount == size) {
-							return curr;
+							if (primeFamilyCount >= 7)
+								System.out.println(String.format("For prime %d found family of size %d at indices %d,%d", curr, primeFamilyCount, x, y));
+							if (primeFamilyCount == size) {
+								return curr;
+							}
 						}
 					}
 				}
