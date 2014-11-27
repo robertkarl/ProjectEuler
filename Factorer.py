@@ -268,7 +268,13 @@ def get_primes_list_less_than(max_n):
         i += 1
     return primes
 
+RelPrimeCache = {}
+
 def relativelyPrimeCount(a):
+	if a % 2 == 0 and RelPrimeCache.has_key(a / 2):
+		ans = 2 * RelPrimeCache[a / 2]
+		RelPrimeCache[a] = ans
+		return ans
 	f = Factorer()
 	if (is_prime(a)):
 		return a - 1
@@ -283,10 +289,21 @@ def relativelyPrimeCount(a):
 				break
 		# this number was relatively prime to a
 		count += 1 if isRelativelyPrime else 0
+	RelPrimeCache[a] = count + 1
 	return count + 1
 
+#
+# 16
+# 1 3 5 7 9 11 13 15
+#
+# 12
+# 1 5 7 11
+#
+# 24
+# 1 5 7 11 13 17 19 23 
+
 def testRelativelyPrime():
-	for (a, ans) in [(2, 1), (3, 2), (4, 2), (5, 4), (6, 2), (7, 6), (8, 4)]:
+	for (a, ans) in [(2, 1), (3, 2), (4, 2), (5, 4), (6, 2), (7, 6), (8, 4), (16, 8)]:
 		assert relativelyPrimeCount(a) == ans
 
 if __name__ == "__main__":
@@ -294,7 +311,8 @@ if __name__ == "__main__":
 	maxN = 1000000
 	count = 0
 	for i in range(2, maxN + 1):
-		print i
+		if i % 1000 == 0:
+			print i
 		count += relativelyPrimeCount(i)
 	print count
 
