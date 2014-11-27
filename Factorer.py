@@ -307,8 +307,7 @@ def testRelativelyPrime():
 	for (a, ans) in [(2, 1), (3, 2), (4, 2), (5, 4), (6, 2), (7, 6), (8, 4), (16, 8)]:
 		assert relativelyPrimeCount(a) == ans
 
-if __name__ == "__main__":
-	testRelativelyPrime()
+def startSearching(maxN):
 	maxN = 1000000
 	count = 0
 	for i in range(2, maxN + 1):
@@ -316,6 +315,10 @@ if __name__ == "__main__":
 			print i
 		count += relativelyPrimeCount(i)
 	print count
+	
+
+if __name__ == "__main__":
+	testRelativelyPrime()
 
 
 
