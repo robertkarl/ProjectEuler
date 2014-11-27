@@ -271,12 +271,13 @@ def get_primes_list_less_than(max_n):
 RelPrimeCache = {}
 
 def relativelyPrimeCount(a):
-	if a % 2 == 0 and RelPrimeCache.has_key(a / 2):
+	if a % 2 == 0 and (a / 2) % 2 == 0 and RelPrimeCache.has_key(a / 2):
 		ans = 2 * RelPrimeCache[a / 2]
 		RelPrimeCache[a] = ans
 		return ans
 	f = Factorer()
 	if (is_prime(a)):
+		RelPrimeCache[a] = a - 1
 		return a - 1
 	fs = set(f.factor(a))
 	fs.remove(1)
