@@ -268,24 +268,19 @@ def get_primes_list_less_than(max_n):
         i += 1
     return primes
 
-f = Factorer()
-f.factor(1000003 * 2) # large semi prime > 1000000
-
 def relativelyPrimeCount(a):
+	f = Factorer()
 	if (is_prime(a)):
 		return a - 1
-
+	fs = set(f.factor(a))
+	fs.remove(1)
 	count = 0
 	for i in range(2, a):
-		k = 2
-		j = 0
 		isRelativelyPrime = True
-		while k <= a / 2:
-			if i % k == 0 and a % k == 0:
+		for k in fs:
+			if i % k == 0:
 				isRelativelyPrime = False
-				break;
-			j += 1
-			k = f.plist[j]
+				break
 		# this number was relatively prime to a
 		count += 1 if isRelativelyPrime else 0
 	return count + 1
@@ -296,7 +291,7 @@ def testRelativelyPrime():
 
 if __name__ == "__main__":
 	testRelativelyPrime()
-	maxN = 1000
+	maxN = 1000000
 	count = 0
 	for i in range(2, maxN + 1):
 		print i
