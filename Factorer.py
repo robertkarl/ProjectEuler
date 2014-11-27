@@ -230,8 +230,10 @@ def testRelativelyPrime():
         assert f.phi(a) == ans
 
 def startSearching(maxN):
+    """
+    returned 303963522857.
+    """
     f = Factorer()
-    maxN = 1000000
     count = 0
     for i in range(2, maxN + 1):
         if i % 1000 == 0:
