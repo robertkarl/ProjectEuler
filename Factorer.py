@@ -231,12 +231,14 @@ def testRelativelyPrime():
 
 def startSearching(maxN):
     """
-    returned 303963522857.
+    returned 303963522857 for 1000000.
+    less than 10000? 30397349
+    less than 100000? 3039648680
     """
     f = Factorer()
     count = 0
     for i in range(2, maxN + 1):
-        if i % 1000 == 0:
+        if i % 10000 == 0:
             print i
         count += f.phi(i)
     print count
