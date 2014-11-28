@@ -107,7 +107,11 @@ class Factorer:
             return n - 1
         pfs = set(self.factor(n))
         pfs.remove(1)
-        return int(n * reduce(lambda x, y: x * y, [1 - 1.0/p for p in pfs]))
+
+        prod = n
+        for currPrime in pfs:
+            prod -= prod / currPrime
+        return prod
 
     def is_prime(self,n):
         """ 
@@ -252,10 +256,14 @@ def testFactoring():
         assert not f.is_prime(i)
     assert set(f.factor(2 * 3 * 5 * 7)) == set([1, 2, 3, 5, 7])
     assert set(f.factor(2 * 3 * 2 * 3 * 5 * 7)) == set([1, 2, 3, 5, 7])
+def testPhi():
+    f = Factorer()
+    assert f.phi(1000000) == 400000
 
 if __name__ == "__main__":
     testRelativelyPrime()
     testFactoring()
+    testPhi()
 
 
 
