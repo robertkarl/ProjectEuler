@@ -229,11 +229,12 @@ def testRelativelyPrime():
     for (a, ans) in [(2, 1), (3, 2), (4, 2), (5, 4), (6, 2), (7, 6), (8, 4), (16, 8)]:
         assert f.phi(a) == ans
 
-def startSearching(maxN):
+def countFractions(maxN):
     """
     returned 303963522857 for 1000000.
-    less than 10000? 30397349
-    less than 100000? 3039648680
+    303,963,522,857
+    less than 10000? 30,397,349
+    less than 100000? 3,039,648,680
     """
     f = Factorer()
     count = 0
@@ -243,9 +244,18 @@ def startSearching(maxN):
         count += f.phi(i)
     print count
     
+def testFactoring():
+    f = Factorer()
+    for i in [2,3,5,7,11,13,17]:
+        assert f.is_prime(i)
+    for i in [4,6,8,9,10,12,14,15,16]:
+        assert not f.is_prime(i)
+    assert set(f.factor(2 * 3 * 5 * 7)) == set([1, 2, 3, 5, 7])
+    assert set(f.factor(2 * 3 * 2 * 3 * 5 * 7)) == set([1, 2, 3, 5, 7])
 
 if __name__ == "__main__":
     testRelativelyPrime()
+    testFactoring()
 
 
 
