@@ -178,15 +178,18 @@ def countFractions(maxN):
     10000  --> 30,397,349
     100000 --> 3,039,648,680
     200000 --> 12,158,598,917
+    500000 --> 75,991,039,675
     """
     f = Factorer()
     count = 0
     for i in range(2, maxN + 1):
         if i % 10000 == 0:
             print i
-        count += f.phi(i)
+        c = f.phi(i)
+        count += c
+        print "phi(%d) = %d" % (i, c)
     print count
-    
+
 def testFactoring():
     f = Factorer()
     for i in [2,3,5,7,11,13,17]:
