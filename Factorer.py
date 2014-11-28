@@ -185,60 +185,14 @@ def binary_repr(n):
     l.reverse()
     return ''.join([str(i) for i in l])
 
-def get_totient_chain(n):
-    answer = [n]
-    next = n
-    while next != 1:
-        next = euler_phi(next)
-        answer.append(next)
-    return answer
-
-def get_primes_list_of_length(num_primes):
-    """ return this many primes
-    """
-    primes = []
-    i = 2
-    while len(primes) < num_primes:
-        if is_prime(i):
-            primes.append(i)
-        i += 1
-    return primes
-
-
-def get_primes_list_less_than(max_n):
-    """ return all primes less than max_n
-    """
-    primes = []
-    i = 2
-    while i < max_n:
-        if is_prime(i):
-            primes.append(i)
-        i += 1
-    return primes
-
-RelPrimeCache = {}
-
-#
-# 16
-# 1 3 5 7 9 11 13 15
-#
-# 12
-# 1 5 7 11
-#
-# 24
-# 1 5 7 11 13 17 19 23 
-
-def testRelativelyPrime():
-    f = Factorer()
-    for (a, ans) in [(2, 1), (3, 2), (4, 2), (5, 4), (6, 2), (7, 6), (8, 4), (16, 8)]:
-        assert f.phi(a) == ans
-
 def countFractions(maxN):
     """
     returned 303963522857 for 1000000.
     303,963,522,857
-    less than 10000? 30,397,349
-    less than 100000? 3,039,648,680
+    8 --> 21
+    10000  --> 30,397,349
+    100000 --> 3,039,648,680
+    200000 --> 12,158,598,917
     """
     f = Factorer()
     count = 0
@@ -256,12 +210,15 @@ def testFactoring():
         assert not f.is_prime(i)
     assert set(f.factor(2 * 3 * 5 * 7)) == set([1, 2, 3, 5, 7])
     assert set(f.factor(2 * 3 * 2 * 3 * 5 * 7)) == set([1, 2, 3, 5, 7])
+
 def testPhi():
+    f = Factorer() 
+    for (a, ans) in [(2, 1), (3, 2), (4, 2), (5, 4), (6, 2), (7, 6), (8, 4), (16, 8)]:
+        assert f.phi(a) == ans
     f = Factorer()
     assert f.phi(1000000) == 400000
 
-if __name__ == "__main__":
-    testRelativelyPrime()
+if __name__ == "__main__":r
     testFactoring()
     testPhi()
 
