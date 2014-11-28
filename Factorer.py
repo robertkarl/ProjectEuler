@@ -1,10 +1,7 @@
 # robert karl and zack gomez
 # projecteuler.net, support functions for dealing with 
 # primes, gcds, other stuff
-# projecteuler.net, problem 214
 
-# import psyco
-# psyco.full()
 from collections import deque
 import math
 import time
@@ -163,11 +160,6 @@ def get_proper_divisors(n):
             divisors.append(i)
     return divisors
 
-def factorial(n):
-    if n == 1 or n == 0:
-        return 1
-    return n * factorial(n-1)
-
 def gcd(a,b):
     while b != 0:
         # a gets b, 
@@ -177,13 +169,6 @@ def gcd(a,b):
         b = a % b
         a = t
     return a
-
-def binary_repr(n):
-    """ thanks 2 internetz    """
-    binary = lambda n: n>0 and [n&1]+binary(n>>1) or []
-    l = binary(n)
-    l.reverse()
-    return ''.join([str(i) for i in l])
 
 def countFractions(maxN):
     """
@@ -212,16 +197,14 @@ def testFactoring():
     assert set(f.factor(2 * 3 * 2 * 3 * 5 * 7)) == set([1, 2, 3, 5, 7])
 
 def testPhi():
-    f = Factorer() 
+    f = Factorer()
     for (a, ans) in [(2, 1), (3, 2), (4, 2), (5, 4), (6, 2), (7, 6), (8, 4), (16, 8)]:
         assert f.phi(a) == ans
     f = Factorer()
     assert f.phi(1000000) == 400000
 
-if __name__ == "__main__":r
+if __name__ == "__main__":
     testFactoring()
     testPhi()
-
-
 
 
