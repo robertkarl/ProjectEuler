@@ -6,7 +6,7 @@ from math import sqrt
 s = int(sqrt(102e16))
 e = int(sqrt(193e16))
 
-for i in xrange(e + 1, s, -1):
+for i in xrange(s, e + 1):
 	if i % 1000000 == 0:
 		print "checking i %d or %s" % (i, str(i * i)[::2])
 		print "i * i = %s" % str(i * i)
