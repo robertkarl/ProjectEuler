@@ -1,6 +1,7 @@
 
 #
-# 464, 465, 315
+# these numbers are wrong!
+# 464, 465, 315, 313
 #
 
 def make_line(pt1, pt2):
@@ -17,9 +18,10 @@ def make_line(pt1, pt2):
 def above(line, x, y):
 	m = line[0]
 	b = line[1]
-	return m * x + b < y
+	return m * x + b <= y
 
 def same_side(line, pt1, pt2):
+	print "line",line,"points:", pt1, pt2
 	if line[0] == None:
 		xval = pt1[1]
 		x1 = pt1[0]
@@ -29,6 +31,7 @@ def same_side(line, pt1, pt2):
 		return theVal
 	first = above(line, pt1[0], pt1[1])
 	sec = above(line, pt2[0], pt2[1])
+	print first, sec
 
 	return first == sec
 
@@ -42,9 +45,22 @@ def containsOrigin(points):
 	AB = make_line(A, B)
 	BC = make_line(B, C)
 
-	return same_side(AC, O, B) and same_side(BC, A, O) and same_side(AB, C, O)
+	cond_a = same_side(BC, A, O)
+	cond_b = same_side(AC, O, B)
+	print "getting condition C" 
+	cond_c = same_side(AB, C, O)
+
+	print "conditions %d, %d, %d" % (cond_a, cond_b, cond_c)
+
+	return cond_c and cond_b and cond_a
 
 
+def test_triangles():
+	points = [0, 0, 1, 0, 0, 1]
+	assert containsOrigin(points)
+
+
+test_triangles()
 fname = "p102_triangles.txt"
 ans = 0
 for line in open(fname):
