@@ -82,11 +82,44 @@ def test_triangles():
 	t4 = [0, 0, 1, 0, 0, -1]
 	assert containsOrigin(t4)
 
+	coversOrigin = [0, 1, 1, -1, -1, -1]
+	assert containsOrigin(coversOrigin)
+
+	throughOrigin = [-1, 1, -1, -1, 1, -1]
+	assert containsOrigin(throughOrigin)
+
+	throughOrigin2 = [1, 1, 1, -1, -1, 1]
+	assert containsOrigin(throughOrigin2)
+
+	throughOriginVertical = [0, 1, 0, -1, 1, 0]
+	assert containsOrigin(throughOriginVertical)
+
+	throughOriginHorizontal = [-1, 0, 1, 0, -1, 0]
+	assert containsOrigin(throughOriginHorizontal)
+
+	throughOriginDiagonal = [-1, -1, 1, 1, 1, -1]
+	assert containsOrigin(throughOriginDiagonal)
+
 def test_same_side():
-	l = [0, 0]
-	p1 = [0 ,0]
-	p2 = [0, -1]
-	assert same_side(l, p1, p2)
+	flatline = [0, 0]
+	vertLine = [None, 0]
+
+	r = (1, 0)
+	l = (-1, 0)
+	u = (0, 1)
+	d = (0, -1)
+
+	assert same_side(flatline, l, r)
+	assert same_side(flatline, l, u)
+	assert same_side(flatline, l, d)
+	assert not same_side(flatline, u, d)
+	assert not same_side(flatline, d, u)
+
+	# vertical line through origin
+	assert not same_side(vertLine, l, r)
+	assert not same_side(vertLine, r, l)
+	assert same_side(vertLine, u, l)
+	assert same_side(vertLine, u, r)
 
 if __name__ == "__main__":
 	test_same_side()	
