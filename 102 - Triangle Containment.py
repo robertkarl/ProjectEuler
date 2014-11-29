@@ -71,6 +71,11 @@ def containsOrigin(points):
 
 
 def test_triangles():
+	firstExample = [-340, 495, -153, -910, 835, -947]
+	assert containsOrigin(firstExample)
+	secondExample = [-175, 41, -421, -714, 574, -645]
+	assert not containsOrigin(secondExample)
+
 	t1 = [0, 0, 1, 0, 0, 1]
 	t2 = [1, 0, 1, 1, 2, 0]
 	assert containsOrigin(t1)
@@ -81,6 +86,8 @@ def test_triangles():
 
 	t4 = [0, 0, 1, 0, 0, -1]
 	assert containsOrigin(t4)
+	t5 = [-1, 1, -1, 0, 0, 0]
+	assert containsOrigin(t5)
 
 	coversOrigin = [0, 1, 1, -1, -1, -1]
 	assert containsOrigin(coversOrigin)
@@ -99,6 +106,9 @@ def test_triangles():
 
 	throughOriginDiagonal = [-1, -1, 1, 1, 1, -1]
 	assert containsOrigin(throughOriginDiagonal)
+
+	endsAtOrigin = [-1, 0, 0, 0, -1, -1]
+	assert containsOrigin(endsAtOrigin)
 
 def test_same_side():
 	flatline = [0, 0]
@@ -128,9 +138,11 @@ if __name__ == "__main__":
 def runTestFile():
 	fname = "p102_triangles.txt"
 	ans = 0
+	totalLines = 0
 	for line in open(fname):
 		t = [int(i) for i in line.split(",")]
-		c = containsOrigin(t)
-
-		if c: ans += 1
+		if containsOrigin(t):
+			ans += 1
+		totalLines += 1
+	assert totalLines == 1000
 	print ans
