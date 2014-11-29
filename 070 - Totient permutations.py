@@ -5,9 +5,13 @@ f = Factorer()
 perms_fname = "/Users/androiddev/Documents/PE/totient_perms.pickle"
 
 def persist(n):
-    perms = pickle.load(open(perms_fname))
+    f = open(perms_fname)
+    perms = pickle.load(f)
+    f.close()
     perms.append(n)
-    pickle.dump(list(set(perms)), open(perms_fname, 'w'))
+    f_writing = open(perms_fname, 'w')
+    pickle.dump(list(set(perms)), f_writing)
+    f_writing.close()
 
 def get_pickled_perms():
     return sorted(set(pickle.load(open(perms_fname))))
