@@ -1,9 +1,3 @@
-
-#
-# these numbers are wrong!
-# 464, 465, 315, 313, 312, 314
-#
-
 def make_line(pt1, pt2):
 	x1 = pt1[0]
 	x2 = pt2[0]
@@ -18,7 +12,7 @@ def make_line(pt1, pt2):
 def strictly_above(line, x, y):
 	m = line[0]
 	b = line[1]
-	return m * x + b < y
+	return (m * x + b) < y
 
 def is_on_line(line, pt):
 	assert len(pt) == 2
@@ -32,30 +26,24 @@ def is_on_line(line, pt):
 	return m * x + b == y
 
 def same_side(line, pt1, pt2):
+	if is_on_line(line, pt1) or is_on_line(line, pt2):
+		return True
 	if line[0] == None:
 		xval = line[1]
 		x1 = pt1[0]
 		x2 = pt2[0]
 		if x1 == xval or x2 == xval:
-			print "short circuiting for line %s" % str(line)
 			return True
-		theVal = not (x1 > xval and x2 < xval) and not (x1 < xval and x2 > xval)
+		theVal = (not (x1 > xval and x2 < xval)) and (not (x1 < xval and x2 > xval))
 		return theVal
-	if is_on_line(line, pt1) or is_on_line(line, pt2):
-		return True
 	first = strictly_above(line, pt1[0], pt1[1])
 	sec = strictly_above(line, pt2[0], pt2[1])
-	print "line is %s x + %s" % (str(line[0]), str(line[1]))
-	print "%s is above? %d" % (str(pt1), first)
-	print "%s is above? %d" % (str(pt2), sec)
-
 	return first == sec
 
 def containsOrigin(points):
 	A = [points[0], points[1]]
 	B = [points[2], points[3]]
 	C = [points[4], points[5]]
-	print A, B, C
 	O = [0, 0]
 
 	AC = make_line(A, C)
@@ -63,9 +51,8 @@ def containsOrigin(points):
 	BC = make_line(B, C)
 
 	cond_a = same_side(BC, A, O)
-	cond_b = same_side(AC, O, B)
+	cond_b = same_side(AC, B, O)
 	cond_c = same_side(AB, C, O)
-	print "Triangle conditions?", (cond_a, cond_b, cond_c)
 
 	return cond_c and cond_b and cond_a
 
@@ -110,14 +97,20 @@ def test_triangles():
 	endsAtOrigin = [-1, 0, 0, 0, -1, -1]
 	assert containsOrigin(endsAtOrigin)
 
+	originOnVertLine = [0, 1, 0, -1, 1, 0]
+	assert containsOrigin(originOnVertLine)
+
+	print "containment passed"
+
+r = (1, 0)
+l = (-1, 0)
+u = (0, 1)
+d = (0, -1)
+
+
 def test_same_side():
 	flatline = [0, 0]
 	vertLine = [None, 0]
-
-	r = (1, 0)
-	l = (-1, 0)
-	u = (0, 1)
-	d = (0, -1)
 
 	assert same_side(flatline, l, r)
 	assert same_side(flatline, l, u)
@@ -130,10 +123,44 @@ def test_same_side():
 	assert not same_side(vertLine, r, l)
 	assert same_side(vertLine, u, l)
 	assert same_side(vertLine, u, r)
+	assert same_side(vertLine, l, u)
+	assert same_side(vertLine, r, u)
+	print "same_side passed"
+
+def test_make_line():
+	# TODO verify
+	for pt1, pt2, line in [[u, d, (None, 0)],
+			[l, r, (0, 0)],
+			[(1, 0), (1, 1), (None, 1)]]:
+		assert make_line(pt1, pt2) == line
+	print "make_line passed"
+
+def test_is_online():
+	vert = (None, 1)
+	assert is_on_line(vert, (1, 0))
+	assert not is_on_line(vert, (0, 0))
+	assert not is_on_line(vert, (2, 0))
+
+	horz = (0, 1)
+	assert is_on_line(horz, (0, 1))
+	assert not is_on_line(horz, (0, -1))
+	assert not is_on_line(horz, (0, 2))
+
+	l1 = (1, 0)
+	assert is_on_line(l1, (0, 0))
+	assert not is_on_line(l1, (-1, 1))
+	assert not is_on_line(l1, (1, -1))
+	print "is_on_line passed"
+
+X = (-175, 41)
+Y = (-421, -714)
+Z = (574, -645)
 
 if __name__ == "__main__":
 	test_same_side()	
 	test_triangles()
+	test_make_line()
+	test_is_online()
 
 def runTestFile():
 	fname = "p102_triangles.txt"
