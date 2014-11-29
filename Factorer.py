@@ -6,24 +6,6 @@ from collections import deque
 import math
 import time
 
-def prime_sieve(l):
-    """
-    slow!
-    
-    """
-    curr_prime_index = 0
-    current_prime = 2
-    while current_prime < int(math.sqrt(l[-1])) + 1:
-        i = curr_prime_index + 1
-        while i < len(l):
-            if l[i] % current_prime == 0 and l[i] != current_prime:
-                l.remove(l[i])
-            i += 1
-        curr_prime_index += 1
-        current_prime = l[curr_prime_index]
-    return l
-        
-
 def merge(a,b):
     """
     O(n) merge for two sorted lists of length n
