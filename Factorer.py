@@ -180,6 +180,9 @@ def testFactoring():
         assert not f.is_prime(i)
     assert set(f.factor(2 * 3 * 5 * 7)) == set([1, 2, 3, 5, 7])
     assert set(f.factor(2 * 3 * 2 * 3 * 5 * 7)) == set([1, 2, 3, 5, 7])
+def testFactorer():
+    pass
+    # TODO! test this
 
 def testPhi():
     f = Factorer()
